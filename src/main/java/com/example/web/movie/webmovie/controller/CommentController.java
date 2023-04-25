@@ -56,7 +56,9 @@ public class CommentController {
         Long userId = userDetails.getId();
         Comment comment = moviesRepository.findById(movieId).map(movie -> {
             commentRequest.setMovie(movie);
-            commentRequest.setUser(userRepository.getReferenceById(userId));
+
+//            commentRequest.setUser(userRepository.getReferenceById(userId));
+            commentRequest.setUser(userRepository.findById(userId).get());
             commentRequest.setDate(LocalDate.now());
 
             return commentRepository.save(commentRequest);
@@ -71,7 +73,7 @@ public class CommentController {
                 .orElseThrow(() -> new ResourceNotFoundException("Comment " + id + "not found"));
 
         comment.setDate(LocalDate.now());
-        comment.setConnent(commentRequest.getConnent());
+        comment.setContent(commentRequest.getContent());
 
         return new ResponseEntity<>(comment, HttpStatus.ACCEPTED);
     }

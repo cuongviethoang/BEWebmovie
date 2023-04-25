@@ -35,6 +35,9 @@ public class User {
     @Size(max = 120)
     private String password;
 
+    @Column(name = "img")
+    private String profileImg;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
         joinColumns = @JoinColumn(name = "user_id"),
@@ -95,6 +98,7 @@ public class User {
         this.roles = roles;
     }
 
+    @JsonIgnore
     public Set<Comment> getComments() {
         return comments;
     }

@@ -18,7 +18,7 @@ public class Comment {
 
     @Lob
     @Column(name = "content")
-    private String connent;
+    private String content;
 
     @Column(name = "date")
     private LocalDate date;
@@ -37,8 +37,8 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String connent, LocalDate date, User user) {
-        this.connent = connent;
+    public Comment(String content, LocalDate date, User user) {
+        this.content = content;
         this.date = date;
         this.user = user;
     }
@@ -51,12 +51,12 @@ public class Comment {
         this.id = id;
     }
 
-    public String getConnent() {
-        return connent;
+    public String getContent() {
+        return content;
     }
 
-    public void setConnent(String connent) {
-        this.connent = connent;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public LocalDate getDate() {
