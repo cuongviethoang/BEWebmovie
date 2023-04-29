@@ -29,11 +29,10 @@ public class FileController {
             produces = MediaType.IMAGE_JPEG_VALUE
     )
     public ResponseEntity<byte[]> getImage(@RequestParam String path) throws IOException {
-        ClassPathResource imgFile = new ClassPathResource("static/Pics" + path);
-        InputStream in = imgFile.getInputStream();
+        ClassPathResource imgFile = new ClassPathResource("static/Pics/" + path);
 
-        byte[] bytes = StreamUtils.copyToByteArray(in);
-        in.close();
+
+        byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);
     }
 

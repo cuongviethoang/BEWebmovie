@@ -69,6 +69,7 @@ public class WebSecurityConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll() // Xác định quy tắc cho việc phân quyền truy cập vào các yêu cầu. Ở đây, yêu cầu có đường dẫn bắt đầu bằng "/api/auth" và "/api/test" được cho phép truy cập mà không cần xác thực, các yêu cầu khác cần xác thực để truy cập.
                 .antMatchers("/api/test/**").permitAll()
+                .antMatchers("/api/file/**").permitAll()
                 .anyRequest().authenticated();
 
         http.authenticationProvider(authenticationProvider()); // Cung cấp authenticationProvider, một đối tượng cung cấp thông tin đăng nhập cho Spring Security.

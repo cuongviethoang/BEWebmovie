@@ -90,6 +90,14 @@ public class User {
         this.password = password;
     }
 
+    public String getProfileImg() {
+        return profileImg;
+    }
+
+    public void setProfileImg(String profileImg) {
+        this.profileImg = profileImg;
+    }
+
     public Set<Role> getRoles() {
         return roles;
     }

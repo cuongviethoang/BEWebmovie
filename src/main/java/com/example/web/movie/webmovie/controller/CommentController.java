@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 @CrossOrigin
@@ -49,6 +50,7 @@ public class CommentController {
     }
 
     // http://localhost:8081/api/movies/1/comments
+    @CrossOrigin
     @PostMapping("/movies/{movieId}/comments")
     public ResponseEntity<Comment> createComment(Authentication authentication,  @PathVariable(value = "movieId") Long movieId, @RequestBody Comment commentRequest) {
 
@@ -60,6 +62,8 @@ public class CommentController {
 //            commentRequest.setUser(userRepository.getReferenceById(userId));
             commentRequest.setUser(userRepository.findById(userId).get());
             commentRequest.setDate(LocalDate.now());
+            LocalTime tm = LocalTime.now();
+            commentRequest.setTime(LocalTime.parse(tm.getHour() + ":" + tm.getMinute() + ":" + tm.getSecond()));
 
             return commentRepository.save(commentRequest);
         }).orElseThrow(() -> new ResourceNotFoundException("Not found movie with id = " + movieId));

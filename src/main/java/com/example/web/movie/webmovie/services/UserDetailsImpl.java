@@ -25,16 +25,19 @@ public class UserDetailsImpl implements UserDetails {
     @JsonIgnore
     private String password;
 
+    private String profileImg;
+
     private Collection<? extends GrantedAuthority> authorities; // GrantedAuthority là một interface trong Spring Security được sử dụng để
     // đại diện cho quyền được cấp cho một người dùng, authorities trong trường hợp này là một bộ sưu tập các đối tượng GrantedAuthority đại diện
     // cho các quyền được cấp cho người dùng tương ứng
 
 
-    public UserDetailsImpl(Long id, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String username, String email, String password, String profileImg, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.profileImg = profileImg;
         this.authorities = authorities;
     }
 
@@ -53,6 +56,7 @@ public class UserDetailsImpl implements UserDetails {
                 user.getUsername(),// lấy từ tham số truyền vào
                 user.getEmail(), // lấy từ tham số truyền vào
                 user.getPassword(), // lấy từ tham số truyền vào
+                user.getProfileImg(),
                 authorities // lấy từ tham số truyền vào
         );
     }
@@ -79,6 +83,8 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return username;
     }
+
+    public String getProfileImg(){return profileImg;}
 
     @Override
     public boolean isAccountNonExpired() {

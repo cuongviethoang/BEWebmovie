@@ -7,6 +7,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "comment")
@@ -22,6 +23,9 @@ public class Comment {
 
     @Column(name = "date")
     private LocalDate date;
+
+    @Column(name="time")
+    private LocalTime time;
 
     @ManyToOne
     @JoinColumn(name = "movie_id", nullable = false)
@@ -65,6 +69,14 @@ public class Comment {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public LocalTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
     }
 
     @JsonIgnore
