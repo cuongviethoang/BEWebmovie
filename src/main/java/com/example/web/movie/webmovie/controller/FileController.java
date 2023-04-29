@@ -21,16 +21,16 @@ import java.nio.file.Paths;
 @RequestMapping("/api/file")
 public class FileController {
 
-    private final Path root = Paths.get("src/main/resources/static/Pics");
-
+//    private final Path root = Paths.get("src/main/resources/static/Pics");
+private final Path root = Paths.get("Pics");
     // http://localhost:8081/api/file/getImg
     @GetMapping(
             value = "getImg",
             produces = MediaType.IMAGE_JPEG_VALUE
     )
     public ResponseEntity<byte[]> getImage(@RequestParam String path) throws IOException {
-        ClassPathResource imgFile = new ClassPathResource("static/Pics/" + path);
-
+//        ClassPathResource imgFile = new ClassPathResource("static/Pics/" + path);
+        Resource imgFile = load(path);
 
         byte[] bytes = StreamUtils.copyToByteArray(imgFile.getInputStream());
         return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(bytes);

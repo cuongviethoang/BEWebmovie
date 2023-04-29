@@ -63,7 +63,8 @@ public class CommentController {
             commentRequest.setUser(userRepository.findById(userId).get());
             commentRequest.setDate(LocalDate.now());
             LocalTime tm = LocalTime.now();
-            commentRequest.setTime(LocalTime.parse(tm.getHour() + ":" + tm.getMinute() + ":" + tm.getSecond()));
+            //commentRequest.setTime(LocalTime.parse(tm.getHour() + ":" + tm.getMinute() + ":" + tm.getSecond()));
+            commentRequest.setTime(LocalTime.parse(String.format("%02d:%02d:%02d", tm.getHour(), tm.getMinute(), tm.getSecond())));
 
             return commentRepository.save(commentRequest);
         }).orElseThrow(() -> new ResourceNotFoundException("Not found movie with id = " + movieId));
