@@ -18,10 +18,6 @@ public class TestController {
 
     @Autowired
     UserRepository userRepository;
-    @GetMapping("/all")
-    public String allAccess() {
-        return "Public Content.";
-    }
 
     // http://localhost:8081/api/test/user
     @GetMapping("/user")

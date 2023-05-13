@@ -1,5 +1,7 @@
 package com.example.web.movie.webmovie.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -33,10 +35,10 @@ public class Movies {
     private double vote_average;
 
     @Column(name = "vote_count")
-    private double vote_count;
+    private int vote_count;
 
     @Column(name = "runtime")
-    private String runtime;
+    private int runtime;
 
     @Column(name = "tagline")
     private String tagline;
@@ -59,11 +61,12 @@ public class Movies {
     private Set<Gener> geners = new HashSet<>();
 
     @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL)
+    @JsonIgnore
     private Set<Comment> comments;
 
     public Movies(){}
 
-    public Movies(String backdrop_path, String original_title, String overview, String poster_path, LocalDate release_date, double vote_average, double vote_count, String runtime, String tagline, String link_trailer, String link_movie) {
+    public Movies(String backdrop_path, String original_title, String overview, String poster_path, LocalDate release_date, double vote_average, int vote_count, int runtime, String tagline, String link_trailer, String link_movie) {
 
         this.backdrop_path = backdrop_path;
         this.original_title = original_title;
@@ -132,19 +135,19 @@ public class Movies {
         this.vote_average = vote_average;
     }
 
-    public double getVote_count() {
+    public int getVote_count() {
         return vote_count;
     }
 
-    public void setVote_count(double vote_count) {
+    public void setVote_count(int vote_count) {
         this.vote_count = vote_count;
     }
 
-    public String getRuntime() {
+    public int getRuntime() {
         return runtime;
     }
 
-    public void setRuntime(String runtime) {
+    public void setRuntime(int runtime) {
         this.runtime = runtime;
     }
 
@@ -180,6 +183,7 @@ public class Movies {
         this.geners = geners;
     }
 
+    @JsonIgnore
     public Set<Comment> getComments() {
         return comments;
     }
@@ -200,6 +204,8 @@ public class Movies {
             gener.getMovies().remove(this);
         }
     }
+
+
 
 
 }

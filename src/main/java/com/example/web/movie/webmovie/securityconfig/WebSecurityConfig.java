@@ -19,9 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableGlobalMethodSecurity( // là một annotation trong Spring Security dùng để kích hoạt tính năng bảo mật cho các phương thức trong ứng dụng.
-        // securedEnabled = true, securedEnabled: Nếu được đặt thành true, cho phép sử dụng annotation @Secured để bảo mật các phương thức trong ứng dụng.
-        // jsr250Enabled = true,  jsr250Enabled: Nếu được đặt thành true, cho phép sử dụng các annotation @RolesAllowed, @PermitAll và @DenyAll để bảo mật các phương thức trong ứng dụng.
-        prePostEnabled = true // prePostEnabled: Nếu được đặt thành true, cho phép sử dụng các annotation @PreAuthorize, @PostAuthorize, @PreFilter và @PostFilter để bảo mật các phương thức trong ứng dụng.
+        prePostEnabled = true // prePostEnabled: Nếu được đặt thành true, cho phép sử dụng các annotation @PreAuthorize, @PostAuthorize,
+        // @PreFilter và @PostFilter để bảo mật các phương thức trong ứng dụng.
 )
 public class WebSecurityConfig {
     @Autowired

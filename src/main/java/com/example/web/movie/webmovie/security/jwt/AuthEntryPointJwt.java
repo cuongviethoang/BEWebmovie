@@ -20,6 +20,7 @@ import java.util.Map;
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthEntryPointJwt.class); // sẽ trả về 1 logger object cho class AuthEntryPointJwt
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
         // AuthenticationException là 1 clss dc định nghĩa trong spring security được sử dụng để xác định các

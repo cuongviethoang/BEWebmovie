@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-// OncePerRequestFilterthực  cung cấp một phương thức doFilterInternal() để phân tích cú pháp & xác thực JWT,
+// OncePerRequestFilter cung cấp một phương thức doFilterInternal() để phân tích cú pháp & xác thực JWT,
 //tải chi tiết Người dùng,  kiểm tra Authorizaion
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired

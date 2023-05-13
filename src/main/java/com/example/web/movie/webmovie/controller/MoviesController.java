@@ -19,8 +19,6 @@ public class MoviesController {
     @Autowired
     MoviesRepository moviesRepository;
 
-
-
     // http://localhost:8081/api/movies
     @GetMapping("/movies")
     public ResponseEntity<List<Movies>> getAllMovies() {
@@ -31,6 +29,7 @@ public class MoviesController {
         }
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
+
     // http://localhost:8081/api/movie/{id}
     @CrossOrigin
     @GetMapping("/movie/{id}")
@@ -80,31 +79,31 @@ public class MoviesController {
         return new ResponseEntity<>(moviesUpcoming, HttpStatus.OK);
     }
 
+    // http://localhost:8081/api/movies/findMovie
+    @GetMapping("movies/findMovie")
+    public ResponseEntity<?> findMovieFromName(@RequestParam String name) {
+        List<Movies> movies = moviesRepository.findNameMovie(name);
+        return ResponseEntity.ok(movies);
+    }
+
     @PostMapping("/movies")
     public ResponseEntity<Movies> createMovie(@RequestBody Movies movies) {
         Movies _movies = moviesRepository.save(new Movies(movies.getBackdrop_path(), movies.getOriginal_title(), movies.getOverview(), movies.getPoster_path(),
-                movies.getRelease_date(), movies.getVote_average(), movies.getVote_count(), movies.getRuntime(), movies.getTagline(), movies.getLink_trailer(), movies.getLink_movie()));
+                movies.getRelease_date(), movies.getVote_average(), movies.getVote_count(), movies.getRuntime(), movies.getTagline(), movies.getLink_trailer(),
+                movies.getLink_movie()));
         return new ResponseEntity<>(_movies, HttpStatus.CREATED);
     }
 
     @PutMapping("movies/{id}")
     public ResponseEntity<Movies> updateMovie(@PathVariable("id") long id, @RequestBody Movies movies) {
+
+        moviesRepository.updateMovie(id,movies.getBackdrop_path(),movies.getOriginal_title(), movies.getOverview(),
+                movies.getPoster_path(), movies.getRelease_date(),movies.getVote_average(), movies.getVote_count(),
+                movies.getRuntime(), movies.getTagline(), movies.getLink_trailer(), movies.getLink_movie());
+
         Movies _movies = moviesRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Not found Movie with id of movie to update= " + id));
-
-        _movies.setBackdrop_path(movies.getBackdrop_path());
-        _movies.setOriginal_title(movies.getOriginal_title());
-        _movies.setOverview(movies.getOverview());
-        _movies.setPoster_path(movies.getPoster_path());
-        _movies.setRelease_date(movies.getRelease_date());
-        _movies.setVote_average(movies.getVote_average());
-        _movies.setVote_count(movies.getVote_count());
-        _movies.setRuntime(movies.getRuntime());
-        _movies.setTagline(movies.getTagline());
-        _movies.setLink_trailer(movies.getLink_trailer());
-        _movies.setLink_movie(movies.getLink_movie());
-
-        return new ResponseEntity<>(moviesRepository.save(_movies), HttpStatus.OK);
+        return ResponseEntity.ok(_movies);
     }
 
     @DeleteMapping("/movies/{id}")
@@ -115,9 +114,4 @@ public class MoviesController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @DeleteMapping("movies")
-    public ResponseEntity<HttpStatus> deleteAllMovies() {
-        moviesRepository.deleteAll();
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
 }

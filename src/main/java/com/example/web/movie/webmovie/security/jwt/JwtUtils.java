@@ -14,12 +14,14 @@ import java.util.Date;
 public class JwtUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
+    // logger có nhiệm vụ ghi lại các thông tin, cảnh báo hoặc lỗi xảy ra trong ứng dung.
+    // tham số truyền vào phương thức getLogger chính là class cần sử dụng getLogger
 
     @Value("${reelzool.app.jwtSecret}")
     private String jwtSecret; // Khóa bí mật
 
     @Value("${reelzool.app.jwtExpirationMs}")
-    private int jwtExpirationMs; // Thời gian có hiệu lực của chuô jwt
+    private int jwtExpirationMs; // Thời gian có hiệu lực của chuôi jwt
 
     // tạo chuỗi jwt từ thông tin user
     public String generateJwtToken(Authentication authentication) {
@@ -30,7 +32,7 @@ public class JwtUtils {
         // để sử dụng trong quá trình tạo JWT token
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();// authentication.getPrincipal() lấy thông tin người dùng  đã được xác thực
-        // ép kiểu thành UserDetailsImpl.
+        // ép kiểu Princial thành UserDetailsImpl.
 
         // Jwts.builder() được sử dụng thư viện JWT của "io.jsonwebtoken" để tạo 1 chuỗi
         // JWT token, với các thành phần bên dưới

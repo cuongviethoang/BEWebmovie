@@ -11,6 +11,8 @@ import java.util.Date;
 @RestController
 public class ControllerExceptionHandler {
 
+    // Khi xảy ra 1 ngoiaj lệ truy cập tài nguyên ko hợp lệ hoặc tài nguyên không tồn tại, spring sẽ tìm kiếm trong exceptionHandler có đối số
+    // là ResourceNotFoundException để xử lí và trả về ResponseStatus 404 Not Found
     @ExceptionHandler(ResourceNotFoundException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     public ErrorMessage resourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
@@ -23,6 +25,7 @@ public class ControllerExceptionHandler {
         return message;
     }
 
+    // khi một ngoiaj lệ được ném ra mà không xác định được ngoại lệ cụ thể thì, spring sẽ tìm kiếm ExceptionHandler có đối số là Exception để xử lí và trả về   lỗi 500
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {

@@ -79,7 +79,7 @@ public class AuthController {
     }
 
     // http://localhost:8081/api/auth/signup
-    @PostMapping("signup")
+    @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
         if (userRepository.existsByUsername(signupRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already token!"));
@@ -97,6 +97,7 @@ public class AuthController {
         Set<Role> roles = new HashSet<>();
 
         if(strRoles == null) {
+            // tạo ROLE_USER ban đầu khi người dùng đăng kí thành công vào hệ thống
             Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                     .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
             roles.add(userRole);

@@ -68,6 +68,7 @@ public class GenerController {
     @PostMapping("/movies/{moviesId}/geners")
     public ResponseEntity<Gener> addTag(@PathVariable(value = "moviesId") Long moviesId, @RequestBody Gener generRequest) {
         Gener gener = moviesRepository.findById(moviesId).map(movies -> {
+        	
             long generId = generRequest.getId();
             if(generId != 0L) {
                 Gener _gener = generRepository.findById(generId)
@@ -113,7 +114,6 @@ public class GenerController {
         List<Movies> movies = moviesRepository.findMoviesByGenersId(id);
         Gener gener = generRepository.findById(id).get();
         for(Movies movie: movies) {
-//            movie.getGeners().remove(gener);
             movie.removeGener(id);
         }
         generRepository.deleteById(id);

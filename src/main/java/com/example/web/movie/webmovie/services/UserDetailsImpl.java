@@ -32,7 +32,9 @@ public class UserDetailsImpl implements UserDetails {
     // cho các quyền được cấp cho người dùng tương ứng
 
 
-    public UserDetailsImpl(Long id, String username, String email, String password, String profileImg, Collection<? extends GrantedAuthority> authorities) {
+    public UserDetailsImpl(Long id, String username, String email, 
+    		String password, String profileImg, 
+    		Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.email = email;
