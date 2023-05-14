@@ -72,6 +72,10 @@ public class Movies {
     @JsonIgnore
     private Set<Dislike> dislikes;
 
+    @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<LocalStore> localStores;
+
 
 
     public Movies(){}
@@ -218,6 +222,15 @@ public class Movies {
 
     public void setDislikes(Set<Dislike> dislikes) {
         this.dislikes = dislikes;
+    }
+
+    @JsonIgnore
+    public Set<LocalStore> getLocalStores() {
+        return localStores;
+    }
+
+    public void setLocalStores(Set<LocalStore> localStores) {
+        this.localStores = localStores;
     }
 
     public void addGener(Gener gener) {

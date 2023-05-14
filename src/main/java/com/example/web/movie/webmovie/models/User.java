@@ -3,6 +3,7 @@ package com.example.web.movie.webmovie.models;
 import com.example.web.movie.webmovie.model.Comment;
 import com.example.web.movie.webmovie.model.Dislike;
 import com.example.web.movie.webmovie.model.Like;
+import com.example.web.movie.webmovie.model.LocalStore;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -57,6 +58,10 @@ public class User {
     @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Dislike> dislikes;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<LocalStore> localStores;
 
     public User() {
 
@@ -134,11 +139,21 @@ public class User {
         this.likes = likes;
     }
 
+    @JsonIgnore
     public Set<Dislike> getDislikes() {
         return dislikes;
     }
 
     public void setDislikes(Set<Dislike> dislikes) {
         this.dislikes = dislikes;
+    }
+
+    @JsonIgnore
+    public Set<LocalStore> getLocalStores() {
+        return localStores;
+    }
+
+    public void setLocalStores(Set<LocalStore> localStores) {
+        this.localStores = localStores;
     }
 }
