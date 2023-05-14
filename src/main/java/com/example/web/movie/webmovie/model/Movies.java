@@ -64,6 +64,16 @@ public class Movies {
     @JsonIgnore
     private Set<Comment> comments;
 
+    @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Like> likes;
+
+    @OneToMany(mappedBy = "movies", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Dislike> dislikes;
+
+
+
     public Movies(){}
 
     public Movies(String backdrop_path, String original_title, String overview, String poster_path, LocalDate release_date, double vote_average, int vote_count, int runtime, String tagline, String link_trailer, String link_movie) {
@@ -190,6 +200,24 @@ public class Movies {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    @JsonIgnore
+    public Set<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
+    @JsonIgnore
+    public Set<Dislike> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Set<Dislike> dislikes) {
+        this.dislikes = dislikes;
     }
 
     public void addGener(Gener gener) {

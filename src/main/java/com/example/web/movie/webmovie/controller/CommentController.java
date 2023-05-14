@@ -4,6 +4,7 @@ import com.example.web.movie.webmovie.dto.CommentDto;
 import com.example.web.movie.webmovie.exception.ResourceNotFoundException;
 import com.example.web.movie.webmovie.model.Comment;
 import com.example.web.movie.webmovie.model.Movies;
+import com.example.web.movie.webmovie.models.User;
 import com.example.web.movie.webmovie.payload.response.MessageResponse;
 import com.example.web.movie.webmovie.repository.CommentRepository;
 import com.example.web.movie.webmovie.repository.MoviesRepository;
@@ -44,8 +45,6 @@ public class CommentController {
     public ResponseEntity<List<CommentDto>> getAllComment(@PathVariable(value = "movieId") Long movieId) {
         Movies movies = moviesRepository.findById(movieId).get();
 
-//        List<Comment> comments = commentRepository.findCommentByMoviesId(movieId);
-//        return new ResponseEntity<>(comments, HttpStatus.OK);
         List<CommentDto> commentDtos = movies.getComments().stream()
                 .map(comment -> {
                     CommentDto commentDto = modelMapper.map(comment, CommentDto.class);
@@ -61,42 +60,25 @@ public class CommentController {
     // http://localhost:8081/api/movies/1/comments
     @CrossOrigin
     @PostMapping("/movies/{movieId}/comments")
-    public ResponseEntity<Comment> createComment(Authentication authentication, 
+    public ResponseEntity<?> createComment(Authentication authentication,
     		@PathVariable(value = "movieId") Long movieId,
-    		@RequestBody Comment commentRequest) {
+    		@RequestBody CommentDto commentDto) {
 
         UserDetailsImpl userDetails = (UserDetailsImpl)  authentication.getPrincipal();
         Long userId = userDetails.getId();
-        Comment comment = moviesRepository.findById(movieId).map(movie -> {
-            commentRequest.setMovie(movie);
-            commentRequest.setUser(userRepository.findById(userId).get());
-            commentRequest.setDate(LocalDate.now());
-            LocalTime tm = LocalTime.now();
-            commentRequest.setTime(LocalTime.parse(String.format("%02d:%02d:%02d", tm.getHour(), tm.getMinute(), tm.getSecond())));
+        Movies movies = moviesRepository.findById(movieId).get();
+        User user = userRepository.findById(userId).get();
+        Comment  comment = new Comment();
+        comment.setMovie(movies);
+        comment.setUser(user);
+        comment.setContent(commentDto.getContent());
+        comment.setDate(LocalDate.now());
+        LocalTime tm = LocalTime.now();
+        comment.setTime(LocalTime.parse(String.format("%02d:%02d:%02d", tm.getHour(), tm.getMinute(), tm.getSecond())));
+        commentRepository.save(comment);
 
-            return commentRepository.save(commentRequest);
-        }).orElseThrow(() -> new ResourceNotFoundException("Not found movie with id = " + movieId));
 
-        return new ResponseEntity<>(comment, HttpStatus.OK);
-    }
-
-    @PutMapping("/comment/{id}")
-    public ResponseEntity<?> updateComment(Authentication authentication,  @PathVariable(value = "id") Long id, @RequestBody Comment commentRequest) {
-
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        long userId = userDetails.getId();;
-
-        Comment comment = commentRepository.findById(id).get();
-        long userID = comment.getUser().getId();
-
-        if(userID==userId) {
-            comment.setDate(LocalDate.now());
-            comment.setTime(LocalTime.now());
-            comment.setContent(commentRequest.getContent());
-
-            return new ResponseEntity<>(comment, HttpStatus.ACCEPTED);
-        }
-        return ResponseEntity.badRequest().body(new MessageResponse("Bạn không phải người dùng viết bình luận này"));
+        return new ResponseEntity<>(commentDto, HttpStatus.OK);
     }
 
     // http://localhost:8081/api/movie/{id}/comment/{id}

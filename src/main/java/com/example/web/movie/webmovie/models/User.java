@@ -1,6 +1,8 @@
 package com.example.web.movie.webmovie.models;
 
 import com.example.web.movie.webmovie.model.Comment;
+import com.example.web.movie.webmovie.model.Dislike;
+import com.example.web.movie.webmovie.model.Like;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -44,9 +46,17 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private Set<Comment> comments;
+
+    @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Like> likes;
+
+    @OneToMany(mappedBy = "user",  cascade = CascadeType.ALL)
+    @JsonIgnore
+    private Set<Dislike> dislikes;
 
     public User() {
 
@@ -113,5 +123,22 @@ public class User {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    @JsonIgnore
+    public Set<Like> getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Set<Like> likes) {
+        this.likes = likes;
+    }
+
+    public Set<Dislike> getDislikes() {
+        return dislikes;
+    }
+
+    public void setDislikes(Set<Dislike> dislikes) {
+        this.dislikes = dislikes;
     }
 }

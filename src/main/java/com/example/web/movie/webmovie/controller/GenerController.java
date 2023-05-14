@@ -56,6 +56,7 @@ public class GenerController {
         return new ResponseEntity<>(gener, HttpStatus.OK);
     }
 
+    // http://localhost/api/geners/{id}/movies
     @GetMapping("/geners/{generId}/movies")
     public ResponseEntity<List<Movies>> getAllMoviesByGenerId(@PathVariable(value = "generId") Long generId) {
         Gener gener = generRepository.findById(generId)
