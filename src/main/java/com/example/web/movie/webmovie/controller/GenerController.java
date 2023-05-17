@@ -66,14 +66,16 @@ public class GenerController {
         return new ResponseEntity<>(movies, HttpStatus.OK);
     }
 
+    // http://localhost:8081/api/movies/{id}/geners
     @PostMapping("/movies/{moviesId}/geners")
     public ResponseEntity<Gener> addTag(@PathVariable(value = "moviesId") Long moviesId, @RequestBody Gener generRequest) {
         Gener gener = moviesRepository.findById(moviesId).map(movies -> {
         	
-            long generId = generRequest.getId();
-            if(generId != 0L) {
-                Gener _gener = generRepository.findById(generId)
-                        .orElseThrow(() -> new ResourceNotFoundException("Not found Gener with id of gener to post for movie= " + generId));
+//            long generId = generRequest.getId();
+            long genreId = generRepository.findByName(generRequest.getName().trim()).getId();
+            if(genreId != 0L) {
+                Gener _gener = generRepository.findById(genreId)
+                        .orElseThrow(() -> new ResourceNotFoundException("Not found Gener with id of gener to post for movie= " + genreId));
                 movies.addGener(_gener);
                 moviesRepository.save(movies);
                 return _gener;

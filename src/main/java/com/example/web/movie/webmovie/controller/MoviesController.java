@@ -1,8 +1,10 @@
 package com.example.web.movie.webmovie.controller;
 
+import com.example.web.movie.webmovie.dto.MovieDto;
 import com.example.web.movie.webmovie.exception.ResourceNotFoundException;
 import com.example.web.movie.webmovie.model.Movies;
 import com.example.web.movie.webmovie.repository.MoviesRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,9 @@ public class MoviesController {
     @Autowired
     MoviesRepository moviesRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     // http://localhost:8081/api/movies
     @GetMapping("/movies")
     public ResponseEntity<List<Movies>> getAllMovies() {
@@ -28,6 +33,22 @@ public class MoviesController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(movies, HttpStatus.OK);
+    }
+
+    // http://localhost:8081/api/movie/stat
+    @GetMapping("/movie/stat")
+    public ResponseEntity<?> getAllStatOfMovie() {
+        List<MovieDto> movieDtos = new ArrayList<>();
+                moviesRepository.findAll().forEach(movies -> {
+            MovieDto movieDto = new MovieDto();
+            movieDto.setId(movies.getId());
+            movieDto.setOriginal_title(movies.getOriginal_title());
+            movieDto.setLikes(movies.getLikes().stream().count());
+            movieDto.setDislikes(movies.getDislikes().stream().count());
+            movieDto.setComments(movies.getComments().stream().count());
+            movieDtos.add(movieDto);
+        });
+        return ResponseEntity.ok(movieDtos);
     }
 
     // http://localhost:8081/api/movie/{id}
@@ -86,14 +107,18 @@ public class MoviesController {
         return ResponseEntity.ok(movies);
     }
 
+    // http://localhost:8081/api/movies
+    @CrossOrigin
     @PostMapping("/movies")
     public ResponseEntity<Movies> createMovie(@RequestBody Movies movies) {
+
         Movies _movies = moviesRepository.save(new Movies(movies.getBackdrop_path(), movies.getOriginal_title(), movies.getOverview(), movies.getPoster_path(),
                 movies.getRelease_date(), movies.getVote_average(), movies.getVote_count(), movies.getRuntime(), movies.getTagline(), movies.getLink_trailer(),
                 movies.getLink_movie()));
         return new ResponseEntity<>(_movies, HttpStatus.CREATED);
     }
 
+    @CrossOrigin
     @PutMapping("movies/{id}")
     public ResponseEntity<Movies> updateMovie(@PathVariable("id") long id, @RequestBody Movies movies) {
 
@@ -106,6 +131,7 @@ public class MoviesController {
         return ResponseEntity.ok(_movies);
     }
 
+    // http://localhost:8081/api/movies/{id}
     @DeleteMapping("/movies/{id}")
     public ResponseEntity<HttpStatus> deleteMovieId(@PathVariable("id") long id) {
         Movies movies = moviesRepository.findById(id)

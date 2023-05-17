@@ -1,5 +1,6 @@
 package com.example.web.movie.webmovie.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -29,6 +30,7 @@ public class Movies {
     private String poster_path;
 
     @Column(name = "release_date")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate release_date;
 
     @Column(name = "vote_average")

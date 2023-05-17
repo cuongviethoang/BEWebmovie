@@ -38,6 +38,9 @@ public class LocalStoreServiceImpl implements LocalStoreService {
                     localStoreDto.setMovieId(localStore.getMovies().getId());
                     localStoreDto.setMovieName(localStore.getMovies().getOriginal_title());
                     localStoreDto.setMoviePicture(localStore.getMovies().getPoster_path());
+                    localStoreDto.setReleaseDate(localStore.getMovies().getRelease_date());
+                    localStoreDto.setVoteAverage(localStore.getMovies().getVote_average());
+                    localStoreDto.setOverview(localStore.getMovies().getOverview());
                     localStoreDto.setUserId(userId);
                     return localStoreDto;
                 }).collect(Collectors.toList());

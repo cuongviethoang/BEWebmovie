@@ -1,20 +1,28 @@
 package com.example.web.movie.webmovie.dto;
 
+import java.time.LocalDate;
+
 public class LocalStoreDto {
     private Long id;
     private Long movieId;
     private String movieName;
     private String moviePicture;
+    private LocalDate releaseDate;
+    private double voteAverage;
+    private String overview;
     private Long userId;
 
     public LocalStoreDto() {
     }
 
-    public LocalStoreDto(Long id, Long movieId, String movieName, String moviePicture, Long userId) {
+    public LocalStoreDto(Long id, Long movieId, String movieName, String moviePicture,LocalDate date, double average, String overview, Long userId) {
         this.id = id;
         this.movieId = movieId;
         this.movieName = movieName;
         this.moviePicture = moviePicture;
+        this.releaseDate = date;
+        this.voteAverage = average;
+        this.overview = overview;
         this.userId = userId;
     }
 
@@ -48,6 +56,30 @@ public class LocalStoreDto {
 
     public void setMoviePicture(String moviePicture) {
         this.moviePicture = moviePicture;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(LocalDate releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public double getVoteAverage() {
+        return voteAverage;
+    }
+
+    public void setVoteAverage(double voteAverage) {
+        this.voteAverage = voteAverage;
+    }
+
+    public String getOverview() {
+        return overview;
+    }
+
+    public void setOverview(String overview) {
+        this.overview = overview;
     }
 
     public Long getUserId() {
