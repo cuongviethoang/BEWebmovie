@@ -28,8 +28,7 @@ public class JwtUtils {
         // Authentication đại diện cho thông tin xác thực của một người dùng.
         // Khi người dùng đăng nhập vào hệ thống, thông tin xác thực của người dùng
         // sẽ được đưa vào đối tượng Authentication, và sau đó được tự động đưa vào trong đối tượng
-        // SecurityContextHolder.  Thông tin người dùng sẽ được lấy ra từ đối tượng "authentication"
-        // để sử dụng trong quá trình tạo JWT token
+        // SecurityContextHolder.
 
         UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();// authentication.getPrincipal() lấy thông tin người dùng  đã được xác thực
         // ép kiểu Princial thành UserDetailsImpl.

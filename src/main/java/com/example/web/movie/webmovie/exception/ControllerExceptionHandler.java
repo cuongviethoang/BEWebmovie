@@ -25,7 +25,8 @@ public class ControllerExceptionHandler {
         return message;
     }
 
-    // khi một ngoiaj lệ được ném ra mà không xác định được ngoại lệ cụ thể thì, spring sẽ tìm kiếm ExceptionHandler có đối số là Exception để xử lí và trả về   lỗi 500
+    // khi một ngoiaj lệ được ném ra mà không xác định được ngoại lệ cụ thể thì,
+    // spring sẽ tìm kiếm ExceptionHandler có đối số là Exception để xử lí và trả về   lỗi 500
     @ExceptionHandler(Exception.class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     public ErrorMessage globalExceptionHandler(Exception ex, WebRequest request) {

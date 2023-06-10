@@ -20,6 +20,8 @@ import java.io.IOException;
 
 // OncePerRequestFilter cung cấp một phương thức doFilterInternal() để phân tích cú pháp & xác thực JWT,
 //tải chi tiết Người dùng,  kiểm tra Authorizaion
+// Nhiệm vụ chính của phương thức này là xử lý các yêu cầu gửi đến ứng dụng  trước khi chúng được chuyển tiếp
+// đến các bộ lọc (filters) và các thành phần xử lý khác.
 public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtUtils jwtUtils;
@@ -29,10 +31,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     private static final Logger logger = LoggerFactory.getLogger(AuthTokenFilter.class); // trả về logger object cho class được truyền vào làm tham số
 
-    //doFilterInternal() sẽ triển khai
-    // phân tích cú pháp & xác thực JWT, tải chi tiết
-    // Người dùng (sử dụng UserDetailsService),
-    // kiểm tra Authorizaion (sử dụng UsernamePasswordAuthenticationToken).
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         try {
@@ -47,25 +45,30 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 // được viết từ class UserDetailsServiceImpl
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
+                // tạo UsernamePasswordAuthenticationToken để đại diện cho xác thực người dùng
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(
                         userDetails, //đối tượng chứa thông tin người dùng
                         null, // mật khẩu người dùng là null vì không cần thiết cho việc xác thực JWT
                         userDetails.getAuthorities() // danh sách các quyền của người dùng được lấy ra từ đối tượng userDetails
                 );
-
+                // Đặt chi tiết xác thực vào đối tượng authentication bằng cách sử dụng đối tượng WebAuthenticationDetailsSource.
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request)); // phương thức sử dụng đối tượng WebAuthenticationDetailsSource
                 // để tạo một đối tượng WebAuthenticationDetails,
                 // chứa chi tiết xác thực của request, và đặt chi tiết xác thực đó
                 // vào đối tượng authentication
 
-                SecurityContextHolder.getContext().setAuthentication(authentication); // Khi đối tượng authentication được đặt vào SecurityContext,
+
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                // Khi đối tượng authentication được đặt vào SecurityContextHolder,
                 // nó cho phép ứng dụng xác thực người dùng trong request.
             }
         } catch (Exception e) {
             logger.error("Cannot set user authentication: {}", e);
         }
-        filterChain.doFilter(request, response); // các Filter tiếp theo hoặc Servlet cuối cùng có thể tiếp tục xử lý request sau khi phương thức doFilterInternal() đã hoàn thành nhiệm vụ
+        filterChain.doFilter(request, response);
+        // xử lí các Filter tiếp theo hoặc Servlet cuối cùng có thể tiếp tục xử lý request sau khi
+        // phương thức doFilterInternal() đã hoàn thành nhiệm vụ
     }
 
     // Đoạn mã này là một phương thức để lấy chuỗi JWT từ trường Authorization trong request header.

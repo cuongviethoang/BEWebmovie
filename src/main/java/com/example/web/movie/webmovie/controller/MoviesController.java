@@ -39,7 +39,7 @@ public class MoviesController {
     @GetMapping("/movie/stat")
     public ResponseEntity<?> getAllStatOfMovie() {
         List<MovieDto> movieDtos = new ArrayList<>();
-                moviesRepository.findAll().forEach(movies -> {
+        moviesRepository.findAll().forEach(movies -> {
             MovieDto movieDto = new MovieDto();
             movieDto.setId(movies.getId());
             movieDto.setOriginal_title(movies.getOriginal_title());

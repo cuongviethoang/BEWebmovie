@@ -247,8 +247,4 @@ public class Movies {
             gener.getMovies().remove(this);
         }
     }
-
-
-
-
 }

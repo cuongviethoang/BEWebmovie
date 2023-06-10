@@ -38,8 +38,8 @@ public class WebSecurityConfig {
     public DaoAuthenticationProvider authenticationProvider() {
 
         // AuthenticationManager có một DaoAuthenticationProvider(với sự trợ giúp của UserDetailsService & PasswordEncoder)
-        // để xác thực UsernamePasswordAuthenticationToken đối tượng.
-        // Nếu thành công, AuthenticationManagertrả về một đối tượng Xác thực được
+        // để xác thực UsernamePasswordAuthenticationToken.
+        // Nếu thành công, AuthenticationManager trả về một đối tượng Xác thực được
         // điền đầy đủ (bao gồm cả các cơ quan được cấp).
 
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
@@ -71,11 +71,14 @@ public class WebSecurityConfig {
                 .antMatchers("/api/file/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.authenticationProvider(authenticationProvider()); // Cung cấp authenticationProvider, một đối tượng cung cấp thông tin đăng nhập cho Spring Security.
+        http.authenticationProvider(authenticationProvider());
+        // phương thức authenticationProvider() trả về đối tượng AuthenticationProvider được sử dụng để xác thực thông tin đăng nhập
+        // http.authenticationProvider() cung cấp thông tin đằng nhập cho SpringSecurity
 
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //  Thêm authenticationJwtTokenFilter trước UsernamePasswordAuthenticationFilter trong chuỗi bộ lọc Spring Security.
-        // authenticationJwtTokenFilter là một Filter để xác thực người dùng dựa trên JWT, nó được thêm vào bộ lọc Spring Security để thực hiện việc này.
-
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        // authenticationJwtTokenFilter() là bộ lọc dùng để xác thực người dùng bằng chuỗi JWT.
+        // authenticationJwtTokenFilter() được đặt trc vì nó sẽ thwucj hiện xác thwucj = JWT trước khi xác thực thông tin
+        // đăng nhập = UsernamePasswordAuthenticationFilter
 
         return http.build();  //  Xây dựng và trả về chuỗi bộ lọc bảo mật được cấu hình.
     }
